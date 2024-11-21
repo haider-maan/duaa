@@ -50,7 +50,12 @@
             text-align: center;
             margin-top: 50px;
         }
-        .prompt-button, .cancel-button {
+        .password-container {
+            display: none; 
+            text-align: center;
+            margin-top: 50px;
+        }
+        .prompt-button, .cancel-button, .password-button {
             background-color: #4CAF50; 
             border: none;
             color: white;
@@ -62,7 +67,7 @@
             cursor: pointer;
             border-radius: 12px;
         }
-        .cancel-button {
+        .cancel-button, .password-button.cancel {
             background-color: #f44336; 
         }
     </style>
@@ -71,8 +76,7 @@
     <div class="main-container">
         <h1>اهلا بكم في حملة قراءة دعاء العهد</h1>
         <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
-        <div class="buttons-container" id="buttons-container"></div>
-        
+        <div class="buttons-container" id="buttons-container"></div> 
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
             <input type="text" id="nameInput" placeholder="Your name">
@@ -80,23 +84,62 @@
             <button class="prompt-button" onclick="confirmName()">تاكيد</button>
             <button class="cancel-button" onclick="cancelName()">الغاء</button>
         </div>
+        <div class="password-container" id="password-container">
+            <h2>:رجاء ادخل كلمة المرور</h2>
+            <input type="password" id="passwordInput" placeholder="Password">
+            <br><br>
+            <button class="password-button" onclick="validatePassword()">تاكيد</button>
+            <button class="password-button cancel" onclick="cancelPassword()">الغاء</button>
+        </div>
     </div>
 
+    <!-- Include the Google API Client Library -->
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
-        let buttonIndex = null;
+        const PASSWORD = 'yourpassword'; // Replace with your desired password
 
-        function redirectToStory(index) {
-            buttonIndex = index;
-            document.getElementById('prompt-container').style.display = 'block';
-            document.getElementById('buttons-container').style.display = 'none';
+        function loadGoogleAPI() {
+            gapi.load('client:auth2', initClient);
+        }
+
+        function initClient() {
+            gapi.client.init({
+                clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Replace with your client ID
+                scope: 'https://www.googleapis.com/auth/drive.file'
+            }).then(() => {
+                gapi.auth2.getAuthInstance().signIn().then(() => {
+                    // Authenticated, proceed with your actions
+                });
+            });
         }
 
         function confirmName() {
             const name = document.getElementById('nameInput').value;
             if (name) {
-                localStorage.setItem('readerName', name);
-                localStorage.setItem('buttonIndex', buttonIndex);
-                window.location.href = "story.html";
+                const fileContent = `Name: ${name}\nDate: ${new Date()}`;
+                const file = new Blob([fileContent], { type: 'text/plain' });
+                const metadata = {
+                    'name': `name_${new Date().getTime()}.txt`,
+                    'mimeType': 'text/plain'
+                };
+
+                const form = new FormData();
+                form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                form.append('file', file);
+
+                gapi.client.drive.files.create({
+                    resource: metadata,
+                    media: {
+                        mimeType: 'text/plain',
+                        body: file
+                    },
+                    fields: 'id'
+                }).then(function(response) {
+                    console.log('File created with ID:', response.result.id);
+                    alert('Name saved to Google Drive successfully.');
+                    // Redirect to story.html after successful save
+                    window.location.href = "story.html";
+                });
             } else {
                 alert(".رجاء ادخل اسمك");
             }
@@ -105,6 +148,32 @@
         function cancelName() {
             document.getElementById('prompt-container').style.display = 'none';
             document.getElementById('buttons-container').style.display = 'grid'; 
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === PASSWORD) {
+                const index = prompt('Enter the button number to remove name:');
+                if (index && localStorage.getItem('button_' + index)) {
+                    localStorage.removeItem('button_' + index);
+                    alert('Name removed successfully.');
+                } else {
+                    alert('No name found for the given button number.');
+                }
+                cancelPassword();
+            } else {
+                alert('Incorrect password.');
+            }
+        }
+
+        function cancelPassword() {
+            document.getElementById('password-container').style.display = 'none';
+            document.getElementById('buttons-container').style.display = 'grid';
+        }
+
+        function redirectToStory(index) {
+            document.getElementById('prompt-container').style.display = 'block';
+            document.getElementById('buttons-container').style.display = 'none';
         }
 
         const container = document.getElementById('buttons-container');
@@ -120,6 +189,18 @@
                 button.onclick = () => redirectToStory(i);
             }
             container.appendChild(button);
+        }
+
+        window.onload = function() {
+            loadGoogleAPI();
+            const removeButton = document.createElement('button');
+            removeButton.className = 'redirect-button';
+            removeButton.textContent = 'Remove Name';
+            removeButton.onclick = () => {
+                document.getElementById('password-container').style.display = 'block';
+                document.getElementById('buttons-container').style.display = 'none';
+            };
+            container.appendChild(removeButton);
         }
     </script>
 </body>
