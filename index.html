@@ -91,7 +91,7 @@
         <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
         <h4>ملحوظة: يسجل الوقت والتاريخ فقط عندما يُقرأ الدعاء<br> ما بين الساعتين الخامسة صباحا والعاشرة صباحا</h4>
         <div class="buttons-container" id="buttons-container"></div>
-        <h4>بعد الانتهاء من قراءة الدعاء لمدة 40 يوم<br> يرجى اخذ لقطة للشاشة وارسالها الى د.فرح السهلاوي<br> <a herf=https://www.instagram.com/dr_farah_alsahlawi2_?igsh=MXZjcTZ5MjJsYTRhZg==>Instagram</a></h4>
+        <h4>بعد الانتهاء من قراءة الدعاء لمدة 40 يوم<br> يرجى اخذ لقطة للشاشة وارسالها الى د.فرح السهلاوي<br> <a href="https://www.instagram.com/dr_farah_alsahlawi2_?igsh=MXZjcTZ5MjJsYTRhZg==">Instagram</a></h4>
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
             <input type="text" id="nameInput" placeholder="Your name">
@@ -151,7 +151,6 @@
                     button.innerHTML += `<br><small>${finishTime}</small>`;
                     button.disabled = true;
                 } else if (status === 'outside') {
-                    button.classList.add('redirect-button'); // Makes the button green again
                     button.disabled = false;
                 } else {
                     button.onclick = () => {
