@@ -21,30 +21,32 @@
             border-radius: 8px;
             background-color: rgba(183, 221, 226, 0.6);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centers the content vertically */
-            align-items: center; /* Centers the content horizontally */
+            justify-content: center;
+            align-items: center;
         }
         .buttons-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 5px;
-            width: 100%; /* Ensures the grid takes the full width of its parent container */
+            width: 75%; /* Reduce the width to make buttons smaller */
+            justify-content: center;
+            margin: auto;
         }
         .redirect-button {
             background-color: #74bca3;
             border: none;
             color: white;
-            padding: 10px 20px;
+            padding: 5px 10px; /* Reduce the padding to make buttons smaller */
             text-align: center;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 12px; /* Reduce font size to make buttons smaller */
             cursor: pointer;
             border-radius: 8px;
             word-wrap: break-word;
