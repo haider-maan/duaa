@@ -130,6 +130,11 @@
             window.location.href = "story.html"; // Redirect to story.html
         }
 
+        function markButtonAsFailed(index, reason) {
+            localStorage.setItem('button_' + index, reason);
+            window.location.href = "story.html"; // Redirect to story.html
+        }
+
         function updateButtons() {
             const container = document.getElementById('buttons-container');
             container.innerHTML = '';
