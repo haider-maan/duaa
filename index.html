@@ -145,7 +145,7 @@
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
                 if (finishTime) {
-                    if (finishTime === 'اُلغيت' || finishTime === 'نفذ الوقت') {
+                    if (finishTime === 'cancelled' || finishTime === 'timed out') {
                         button.className += ' red';
                         button.textContent += ` (${finishTime})`;
                     } else {
