@@ -59,10 +59,6 @@
             background-color: gray;
             cursor: not-allowed;
         }
-        .redirect-button.red {
-            background-color: red;
-            cursor: not-allowed;
-        }
         .prompt-container {
             display: none;
             text-align: center;
@@ -83,6 +79,9 @@
         .cancel-button {
             background-color: #f44336;
         }
+        .prompt-container h2 {
+            color: red; /* Makes the h2 paragraph red */
+        }
     </style>
 </head>
 <body>
@@ -90,7 +89,7 @@
         <h1>اهلا بكم في مبادرة قراءة دعاء العهد</h1>
         <div id="greeting-container"></div>
         <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
-        <h2>ملحوظة : يتم تسجيل الوقت فقط اذا قُرِء الدعاء<br> بين الساعة الخامسة والساعة العاشرة فجراٍ.</h2>
+        <h4>ملحوظة: يسجل الوقت والتاريخ فقط عندما يُقرأ الدعاء<br> ما بين الساعتين الخامسة صباحا والعاشرة صباحا</h4>
         <div class="buttons-container" id="buttons-container"></div>
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
@@ -131,14 +130,7 @@
             if (hour >= 5 && hour <= 10) {
                 const finishTime = now.toLocaleString();
                 localStorage.setItem('button_' + index, finishTime);
-            } else {
-                localStorage.setItem('button_' + index, 'outside reading hours');
             }
-            window.location.href = "story.html"; // Redirect to story.html
-        }
-
-        function markButtonAsFailed(index, reason) {
-            localStorage.setItem('button_' + index, reason);
             window.location.href = "story.html"; // Redirect to story.html
         }
 
@@ -151,12 +143,7 @@
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
                 if (finishTime) {
-                    if (finishTime === 'cancelled' || finishTime === 'timed out' || finishTime === 'outside reading hours') {
-                        button.className += ' red';
-                        button.textContent += ` (${finishTime})`;
-                    } else {
-                        button.innerHTML += `<br><small>${finishTime}</small>`;
-                    }
+                    button.innerHTML += `<br><small>${finishTime}</small>`;
                     button.disabled = true;
                 } else {
                     button.onclick = () => {
