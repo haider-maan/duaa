@@ -80,7 +80,7 @@
             background-color: #f44336;
         }
         .prompt-container h4 {
-            color: red; /* Makes the h2 paragraph red */
+            color: red; /* Makes the h4 paragraph red */
         }
     </style>
 </head>
@@ -130,6 +130,9 @@
             if (hour >= 5 && hour <= 10) {
                 const finishTime = now.toLocaleString();
                 localStorage.setItem('button_' + index, finishTime);
+                localStorage.setItem('button_' + index + '_status', 'finished');
+            } else {
+                localStorage.setItem('button_' + index + '_status', 'outside');
             }
             window.location.href = "story.html"; // Redirect to story.html
         }
@@ -142,9 +145,13 @@
                 button.className = 'redirect-button small';
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
-                if (finishTime) {
+                const status = localStorage.getItem('button_' + i + '_status');
+                if (status === 'finished') {
                     button.innerHTML += `<br><small>${finishTime}</small>`;
                     button.disabled = true;
+                } else if (status === 'outside') {
+                    button.classList.add('redirect-button'); // Makes the button green again
+                    button.disabled = false;
                 } else {
                     button.onclick = () => {
                         localStorage.setItem('buttonIndex', i);
