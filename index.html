@@ -152,7 +152,10 @@
                     }
                     button.disabled = true;
                 } else {
-                    button.onclick = () => finishReading(i);
+                    button.onclick = () => {
+                        localStorage.setItem('buttonIndex', i);
+                        finishReading(i);
+                    };
                 }
                 container.appendChild(button);
             }
