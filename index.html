@@ -109,7 +109,7 @@
         function finishReading(index) {
             const finishTime = new Date().toLocaleTimeString();
             localStorage.setItem('button_' + index, finishTime);
-            updateButtons();
+            window.location.href = "story.html"; // Redirect to story.html
         }
 
         function updateButtons() {
