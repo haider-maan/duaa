@@ -135,7 +135,7 @@
             } else {
                 localStorage.setItem('button_' + index + '_status', 'outside');
             }
-            window.location.href = "story.html"; // Always redirect to story.html
+            setTimeout(() => { window.location.href = "story.html"; }, 0); // Always redirect to story.html
         }
 
         function updateButtons() {
