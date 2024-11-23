@@ -31,7 +31,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 5px;
-            width: 75%; /* Reduce the width to make buttons smaller */
+            width: 75%; /* Reduced width to make buttons smaller */
             justify-content: center;
             margin: auto;
         }
@@ -39,17 +39,21 @@
             background-color: #74bca3;
             border: none;
             color: white;
-            padding: 5px 10px; /* Reduce the padding to make buttons smaller */
+            padding: 5px 10px; /* Reduced padding to make buttons smaller */
             text-align: center;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 12px; /* Reduce font size to make buttons smaller */
+            font-size: 12px; /* Reduced font size to make buttons smaller */
             cursor: pointer;
             border-radius: 8px;
             word-wrap: break-word;
+        }
+        .redirect-button.small {
+            width: 100%; /* Ensure button takes full column width */
+            height: auto; /* Ensure button adapts to content */
         }
         .redirect-button[disabled] {
             background-color: gray;
@@ -131,7 +135,7 @@
             container.innerHTML = '';
             for (let i = 1; i <= 40; i++) {
                 const button = document.createElement('button');
-                button.className = 'redirect-button';
+                button.className = 'redirect-button small'; // Ensures buttons keep their small size
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
                 if (finishTime) {
