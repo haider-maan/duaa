@@ -88,6 +88,7 @@
                 document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
                 document.getElementById('prompt-container').style.display = 'none';
                 document.getElementById('buttons-container').style.display = 'grid';
+                updateButtons();
             } else {
                 alert(".رجاء ادخل اسمك");
             }
@@ -98,6 +99,7 @@
             if (name) {
                 document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
                 document.getElementById('buttons-container').style.display = 'grid';
+                updateButtons();
             } else {
                 document.getElementById('prompt-container').style.display = 'block';
                 document.getElementById('buttons-container').style.display = 'none';
@@ -116,7 +118,7 @@
             for (let i = 1; i <= 40; i++) {
                 const button = document.createElement('button');
                 button.className = 'redirect-button';
-                button.textContent ='اليوم ' + i;
+                button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
                 if (finishTime) {
                     button.innerHTML += `<br><small>${finishTime}</small>`;
