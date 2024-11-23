@@ -49,6 +49,10 @@
             background-color: gray;
             cursor: not-allowed;
         }
+        .redirect-button.red {
+            background-color: red;
+            cursor: not-allowed;
+        }
         .prompt-container {
             display: none;
             text-align: center;
@@ -111,7 +115,7 @@
         }
 
         function finishReading(index) {
-            const finishTime = new Date().toLocaleTimeString();
+            const finishTime = new Date().toLocaleString();
             localStorage.setItem('button_' + index, finishTime);
             window.location.href = "story.html"; // Redirect to story.html
         }
@@ -125,7 +129,12 @@
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
                 if (finishTime) {
-                    button.innerHTML += `<br><small>${finishTime}</small>`;
+                    if (finishTime === 'cancelled' || finishTime === 'timed out') {
+                        button.className += ' red';
+                        button.textContent += ` (${finishTime})`;
+                    } else {
+                        button.innerHTML += `<br><small>${finishTime}</small>`;
+                    }
                     button.disabled = true;
                 } else {
                     button.onclick = () => finishReading(i);
