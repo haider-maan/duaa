@@ -1,120 +1,134 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-  <head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>دعاء العهد</title> 
-    <style> 
-      body { 
-        font-family: Arial, sans-serif; 
-        text-align: center; 
-        margin-top: 50px; 
-        margin-bottom: 50px; 
-        background: url('bg1.jpg') no-repeat center center fixed; 
-        background-size: cover; 
-      } 
-      .main-container { 
-        max-width: 1200px; 
-        margin: auto; 
-        padding: 20px; 
-        border: 1px solid #ccc; 
-        border-radius: 8px; 
-        background-color: rgba(183, 221, 226, 0.6); 
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-      } 
-      .buttons-container { 
-        display: grid; 
-        grid-template-columns: repeat(5, 1fr); 
-        gap: 5px; 
-        max-width: 1000px; 
-        margin: auto; 
-      } 
-      .redirect-button { 
-        background-color: #74bca3; 
-        border: none; 
-        color: white; 
-        padding: 10px 20px; 
-        text-align: center; 
-        text-decoration: none; 
-        display: inline-block; 
-        font-size: 16px; 
-        cursor: pointer; 
-        border-radius: 8px; 
-      } 
-      .redirect-button[disabled] { 
-        background-color: gray; 
-        cursor: not-allowed; 
-      } 
-      .prompt-container { 
-        display: none; 
-        text-align: center; 
-        margin-top: 50px; 
-      } 
-      .prompt-button, .cancel-button { 
-        background-color: #4CAF50; 
-        border: none; 
-        color: white; 
-        padding: 15px 32px; 
-        text-align: center; 
-        text-decoration: none; 
-        display: inline-block; 
-        font-size: 16px; 
-        cursor: pointer; 
-        border-radius: 12px; 
-      } 
-      .cancel-button { 
-        background-color: #f44336; 
-      } 
-    </style> 
-  </head> 
-  <body> 
-    <div class="main-container"> 
-      <h1>اهلا بكم في مبادرة قراءة دعاء العهد</h1> 
-      <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3> 
-      <div class="buttons-container" id="buttons-container"></div> 
-      <div class="prompt-container" id="prompt-container">
-        <h2>:رجاء ادخل اسمك</h2> 
-        <input type="text" id="nameInput" placeholder="Your name"> 
-        <br>
-        <br> 
-        <button class="prompt-button" onclick="confirmName()">تاكيد</button> 
-        <button class="cancel-button" onclick="cancelName()">الغاء</button> 
-      </div> 
-    </div> 
-    <script> let buttonIndex = null; function redirectToStory(index) { 
-  buttonIndex = index; 
-  document.getElementById('prompt-container').style.display = 'block'; 
-  document.getElementById('buttons-container').style.display = 'none'; } 
-      function confirmName() { 
-        const name = document.getElementById('nameInput').value; 
-        if (name) { 
-          localStorage.setItem('readerName', name); 
-          localStorage.setItem('buttonIndex', buttonIndex); 
-          window.location.href = "story.html"; 
-        } 
-        else { 
-          alert(".رجاء ادخل اسمك"); 
-        } 
-      } 
-      function cancelName() { 
-        document.getElementById('prompt-container').style.display = 'none'; 
-        document.getElementById('buttons-container').style.display = 'grid'; 
-      } 
-      const container = document.getElementById('buttons-container'); 
-      for (let i = 1; i <= 40; i++) { 
-        const button = document.createElement('button'); 
-        button.className = 'redirect-button'; 
-        button.textContent ='اليوم ' + i; 
-        const storedName = localStorage.getItem('button_' + i); 
-        if (storedName) { 
-          button.innerHTML += `<br><small>${storedName}</small>`; 
-          button.disabled = true; 
-        } 
-        else { 
-          button.onclick = () => redirectToStory(i); 
-        } 
-        container.appendChild(button); 
-      } 
-    </script> 
-  </body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعاء العهد</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            background: url('bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: rgba(183, 221, 226, 0.6);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .redirect-button {
+            background-color: #74bca3;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .redirect-button[disabled] {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        .prompt-container {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .prompt-button, .cancel-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .cancel-button {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1>اهلا بكم في مبادرة قراءة دعاء العهد</h1>
+        <div id="greeting-container"></div>
+        <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
+        <div class="buttons-container" id="buttons-container"></div>
+        <div class="prompt-container" id="prompt-container">
+            <h2>:رجاء ادخل اسمك</h2>
+            <input type="text" id="nameInput" placeholder="Your name">
+            <br><br>
+            <button class="prompt-button" onclick="confirmName()">تاكيد</button>
+        </div>
+    </div>
+    <script>
+        function confirmName() {
+            const name = document.getElementById('nameInput').value;
+            if (name) {
+                localStorage.setItem('readerName', name);
+                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
+                document.getElementById('prompt-container').style.display = 'none';
+                document.getElementById('buttons-container').style.display = 'grid';
+            } else {
+                alert(".رجاء ادخل اسمك");
+            }
+        }
+
+        function checkName() {
+            const name = localStorage.getItem('readerName');
+            if (name) {
+                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
+                document.getElementById('buttons-container').style.display = 'grid';
+            } else {
+                document.getElementById('prompt-container').style.display = 'block';
+                document.getElementById('buttons-container').style.display = 'none';
+            }
+        }
+
+        function finishReading(index) {
+            const finishTime = new Date().toLocaleTimeString();
+            localStorage.setItem('button_' + index, finishTime);
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const container = document.getElementById('buttons-container');
+            container.innerHTML = '';
+            for (let i = 1; i <= 40; i++) {
+                const button = document.createElement('button');
+                button.className = 'redirect-button';
+                button.textContent ='اليوم ' + i;
+                const finishTime = localStorage.getItem('button_' + i);
+                if (finishTime) {
+                    button.innerHTML += `<br><small>${finishTime}</small>`;
+                    button.disabled = true;
+                } else {
+                    button.onclick = () => finishReading(i);
+                }
+                container.appendChild(button);
+            }
+        }
+
+        window.onload = checkName;
+    </script>
+</body>
 </html>
