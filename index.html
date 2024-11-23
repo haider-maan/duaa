@@ -21,13 +21,17 @@
             border-radius: 8px;
             background-color: rgba(183, 221, 226, 0.6);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centers the content vertically */
+            align-items: center; /* Centers the content horizontally */
         }
         .buttons-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 5px;
-            max-width: 1000px;
-            margin: auto;
+            width: 100%; /* Ensures the grid takes the full width of its parent container */
         }
         .redirect-button {
             background-color: #74bca3;
