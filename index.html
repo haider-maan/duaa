@@ -31,7 +31,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 5px;
-            width: 75%;
+            width: 75%; /* Reduced width to make buttons smaller */
             justify-content: center;
             margin: auto;
         }
@@ -39,24 +39,28 @@
             background-color: #74bca3;
             border: none;
             color: white;
-            padding: 5px 10px;
+            padding: 5px 10px; /* Reduced padding to make buttons smaller */
             text-align: center;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
+            font-size: 12px; /* Reduced font size to make buttons smaller */
             cursor: pointer;
             border-radius: 8px;
             word-wrap: break-word;
         }
         .redirect-button.small {
-            width: 100%;
-            height: auto;
+            width: 100%; /* Ensure button takes full column width */
+            height: auto; /* Ensure button adapts to content */
         }
         .redirect-button[disabled] {
             background-color: gray;
+            cursor: not-allowed;
+        }
+        .redirect-button.red {
+            background-color: red;
             cursor: not-allowed;
         }
         .prompt-container {
@@ -79,9 +83,6 @@
         .cancel-button {
             background-color: #f44336;
         }
-        .prompt-container h4 {
-            color: red; /* Makes the h4 paragraph red */
-        }
     </style>
 </head>
 <body>
@@ -89,7 +90,6 @@
         <h1>اهلا بكم في مبادرة قراءة دعاء العهد</h1>
         <div id="greeting-container"></div>
         <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
-        <h4>ملحوظة: يسجل الوقت والتاريخ فقط عندما يُقرأ الدعاء<br> ما بين الساعتين الخامسة صباحا والعاشرة صباحا</h4>
         <div class="buttons-container" id="buttons-container"></div>
         <h4>بعد الانتهاء من قراءة الدعاء لمدة 40 يوم<br> يرجى اخذ لقطة للشاشة وارسالها الى د.فرح السهلاوي<br> <a href="https://www.instagram.com/dr_farah_alsahlawi2_?igsh=MXZjcTZ5MjJsYTRhZg==">Instagram</a></h4>
         <div class="prompt-container" id="prompt-container">
@@ -126,16 +126,14 @@
         }
 
         function finishReading(index) {
-            const now = new Date();
-            const hour = now.getHours();
-            if (hour >= 5 && hour <= 10) {
-                const finishTime = now.toLocaleString();
-                localStorage.setItem('button_' + index, finishTime);
-                localStorage.setItem('button_' + index + '_status', 'finished');
-            } else {
-                localStorage.setItem('button_' + index + '_status', 'outside');
-            }
-            setTimeout(() => { window.location.href = "story.html"; }, 0); // Always redirect to story.html
+            const finishTime = new Date().toLocaleString();
+            localStorage.setItem('button_' + index, finishTime);
+            window.location.href = "story.html"; // Redirect to story.html
+        }
+
+        function markButtonAsFailed(index, reason) {
+            localStorage.setItem('button_' + index, reason);
+            window.location.href = "story.html"; // Redirect to story.html
         }
 
         function updateButtons() {
@@ -143,15 +141,17 @@
             container.innerHTML = '';
             for (let i = 1; i <= 40; i++) {
                 const button = document.createElement('button');
-                button.className = 'redirect-button small';
+                button.className = 'redirect-button small'; // Ensures buttons keep their small size
                 button.textContent = 'اليوم ' + i;
                 const finishTime = localStorage.getItem('button_' + i);
-                const status = localStorage.getItem('button_' + i + '_status');
-                if (status === 'finished') {
-                    button.innerHTML += `<br><small>${finishTime}</small>`;
+                if (finishTime) {
+                    if (finishTime === 'cancelled' || finishTime === 'timed out') {
+                        button.className += ' red';
+                        button.textContent += ` (${finishTime})`;
+                    } else {
+                        button.innerHTML += `<br><small>${finishTime}</small>`;
+                    }
                     button.disabled = true;
-                } else if (status === 'outside') {
-                    button.disabled = false;
                 } else {
                     button.onclick = () => {
                         localStorage.setItem('buttonIndex', i);
