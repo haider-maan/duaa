@@ -99,19 +99,11 @@
 
         function finishReading() {
             const index = localStorage.getItem('buttonIndex');
-            const now = new Date();
-            const hour = now.getHours();
-            if (hour >= 5 && hour <= 10) {
-                const finishTime = now.toLocaleString();
-                localStorage.setItem('button_' + index, finishTime);
-                document.getElementById('story-container').style.display = 'none';
-                document.getElementById('buttons-container').style.display = 'none';
-                document.getElementById('finish-message').style.display = 'block';
-            } else {
-                document.getElementById('story-container').style.display = 'none';
-                document.getElementById('buttons-container').style.display = 'none';
-                document.getElementById('finish-message').style.display = 'block';
-            }
+            const finishTime = new Date().toLocaleString();
+            localStorage.setItem('button_' + index, finishTime);
+            document.getElementById('story-container').style.display = 'none';
+            document.getElementById('buttons-container').style.display = 'none';
+            document.getElementById('finish-message').style.display = 'block';
         }
 
         function showConfirmation() {
