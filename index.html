@@ -95,9 +95,9 @@
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
             <input type="text" id="nameInput" placeholder="Your name">
-            <h2>:ما هي مدينتك</h2>
+            <h2>ما هي كليتك:</h2>
             <input type="text" id="cityInput" placeholder="Your city">
-            <h2>:ما هو عمرك</h2>
+            <h2>:ما هي مرحلتك</h2>
             <input type="text" id="ageInput" placeholder="Your age">
             <br><br>
             <button class="prompt-button" onclick="confirmName()">تاكيد</button>
@@ -109,9 +109,9 @@
             const city = document.getElementById('cityInput').value;
             const age = document.getElementById('ageInput').value;
             if (name && city && age) {
-                localStorage.setItem('readerName', الاسم);
-                localStorage.setItem('readerCity', الكلية);
-                localStorage.setItem('readerAge', المرحلة);
+                localStorage.setItem('readerName', name);
+                localStorage.setItem('readerCity', city);
+                localStorage.setItem('readerAge', age);
                 document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}<br> من كلية ${city}<br> المرحلة ${age}!</h2>`;
                 document.getElementById('prompt-container').style.display = 'none';
                 document.getElementById('buttons-container').style.display = 'grid';
