@@ -95,6 +95,10 @@
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
             <input type="text" id="nameInput" placeholder="Your name">
+            <h2>:ما هي مدينتك</h2>
+            <input type="text" id="cityInput" placeholder="Your city">
+            <h2>:ما هو عمرك</h2>
+            <input type="text" id="ageInput" placeholder="Your age">
             <br><br>
             <button class="prompt-button" onclick="confirmName()">تاكيد</button>
         </div>
@@ -102,21 +106,27 @@
     <script>
         function confirmName() {
             const name = document.getElementById('nameInput').value;
-            if (name) {
-                localStorage.setItem('readerName', name);
-                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
+            const city = document.getElementById('cityInput').value;
+            const age = document.getElementById('ageInput').value;
+            if (name && city && age) {
+                localStorage.setItem('readerName', الاسم);
+                localStorage.setItem('readerCity', الكلية);
+                localStorage.setItem('readerAge', المرحلة);
+                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}<br> من ${city}<br> المرحلة ${age}!</h2>`;
                 document.getElementById('prompt-container').style.display = 'none';
                 document.getElementById('buttons-container').style.display = 'grid';
                 updateButtons();
             } else {
-                alert(".رجاء ادخل اسمك");
+                alert(".رجاء ادخل جميع التفاصيل");
             }
         }
 
         function checkName() {
             const name = localStorage.getItem('readerName');
-            if (name) {
-                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}!</h2>`;
+            const city = localStorage.getItem('readerCity');
+            const age = localStorage.getItem('readerAge');
+            if (name && city && age) {
+                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name} من ${city}، عمرك ${age}!</h2>`;
                 document.getElementById('buttons-container').style.display = 'grid';
                 updateButtons();
             } else {
