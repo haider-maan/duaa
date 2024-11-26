@@ -126,7 +126,7 @@
             const city = localStorage.getItem('readerCity');
             const age = localStorage.getItem('readerAge');
             if (name && city && age) {
-                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name} من ${city}، عمرك ${age}!</h2>`;
+                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name} من ${city}، المرحلة ${age}!</h2>`;
                 document.getElementById('buttons-container').style.display = 'grid';
                 updateButtons();
             } else {
