@@ -83,6 +83,27 @@
         .cancel-button {
             background-color: #f44336;
         }
+        .clear-data-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .clear-data-button {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -91,6 +112,10 @@
         <div id="greeting-container"></div>
         <h3>اختر احد المربعات باللون الاخضر للمشاركة في قرائة الدعاء</h3>
         <div class="buttons-container" id="buttons-container"></div>
+        <div class="clear-data-container">
+            <div class="clear-data-container hidden" id="clear-data-container">
+                <button class="clear-data-button" onclick="clearData()">مسح البيانات</button>
+            </div>                    
         <h4>بعد الانتهاء من قراءة الدعاء لمدة 40 يوم<br> يرجى اخذ لقطة للشاشة وارسالها الى د.فرح السهلاوي<br> <a href="https://www.instagram.com/dr_farah_alsahlawi2_?igsh=MXZjcTZ5MjJsYTRhZg==">Instagram</a></h4>
         <div class="prompt-container" id="prompt-container">
             <h2>:رجاء ادخل اسمك</h2>
@@ -105,35 +130,38 @@
     </div>
     <script>
         function confirmName() {
-            const name = document.getElementById('nameInput').value;
-            const city = document.getElementById('cityInput').value;
-            const age = document.getElementById('ageInput').value;
-            if (name && city && age) {
-                localStorage.setItem('readerName', name);
-                localStorage.setItem('readerCity', city);
-                localStorage.setItem('readerAge', age);
-                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}<br> من كلية ${city}<br> المرحلة ${age}!</h2>`;
-                document.getElementById('prompt-container').style.display = 'none';
-                document.getElementById('buttons-container').style.display = 'grid';
-                updateButtons();
-            } else {
-                alert(".رجاء ادخل جميع التفاصيل");
-            }
-        }
+    const name = document.getElementById('nameInput').value;
+    const city = document.getElementById('cityInput').value;
+    const age = document.getElementById('ageInput').value;
+    if (name && city && age) {
+        localStorage.setItem('readerName', name);
+        localStorage.setItem('readerCity', city);
+        localStorage.setItem('readerAge', age);
+        document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name}<br> من كلية ${city}<br> المرحلة ${age}!</h2>`;
+        document.getElementById('prompt-container').style.display = 'none';
+        document.getElementById('buttons-container').style.display = 'grid';
+        document.getElementById('clear-data-container').classList.remove('hidden');
+        updateButtons();
+    } else {
+        alert(".رجاء ادخل جميع التفاصيل");
+    }
+}
 
-        function checkName() {
-            const name = localStorage.getItem('readerName');
-            const city = localStorage.getItem('readerCity');
-            const age = localStorage.getItem('readerAge');
-            if (name && city && age) {
-                document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name} من ${city}، المرحلة ${age}!</h2>`;
-                document.getElementById('buttons-container').style.display = 'grid';
-                updateButtons();
-            } else {
-                document.getElementById('prompt-container').style.display = 'block';
-                document.getElementById('buttons-container').style.display = 'none';
-            }
-        }
+function checkName() {
+    const name = localStorage.getItem('readerName');
+    const city = localStorage.getItem('readerCity');
+    const age = localStorage.getItem('readerAge');
+    if (name && city && age) {
+        document.getElementById('greeting-container').innerHTML = `<h2>مرحبًا، ${name} من ${city}، المرحلة ${age}!</h2>`;
+        document.getElementById('buttons-container').style.display = 'grid';
+        document.getElementById('clear-data-container').classList.remove('hidden');
+        updateButtons();
+    } else {
+        document.getElementById('prompt-container').style.display = 'block';
+        document.getElementById('buttons-container').style.display = 'none';
+    }
+}
+
 
         function finishReading(index) {
             const finishTime = new Date().toLocaleString();
@@ -171,8 +199,16 @@
                 container.appendChild(button);
             }
         }
+        function clearData() {
+            if (confirm("سيتم مسح معلومات القارئ مع الايام التي تم تسجيلها.هل أنت متأكد أنك تريد مسح كل البيانات؟")) {
+                localStorage.clear();
+                alert("تم مسح البيانات!");
+                window.location.reload();
+            }
+        }
 
         window.onload = checkName;
+        
     </script>
 </body>
 </html>
